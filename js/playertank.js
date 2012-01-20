@@ -1,7 +1,7 @@
 var PlayerTank = function() {}
 
 PlayerTank.prototype = {
-	keymap:{37:0,38:0,39:0,40:0},
+	keymap:{KEY_UP:0,KEY_DOWN:0,KEY_LEFT:0,KEY_RIGHT:0},
 	init:function() {
 		this.addSprite(Class.create(PlayerTower));
 		this.position = {x:30,y:30};
@@ -10,19 +10,20 @@ PlayerTank.prototype = {
 	},
 	tick:function() {				
 		with (this) {
-			if (keymap[CONST.KEYS.LEFT]) {
+			if (keymap[KEY_LEFT]) {
 				angle -= Math.PI/60;
-			} else if (keymap[CONST.KEYS.RIGHT]) {
+			} else if (keymap[KEY_RIGHT]) {
 				angle += Math.PI/60;
 			}
-			if (keymap[CONST.KEYS.UP]) {
+			if (keymap[KEY_UP]) {
 				position.x+=Math.cos(angle)*5;
 				position.y+=Math.sin(angle)*5;
-			} else if (keymap[CONST.KEYS.DOWN]) {
+			} else if (keymap[KEY_DOWN]) {
 				position.x-=Math.cos(angle)*5;
 				position.y-=Math.sin(angle)*5;
 			}
 		}
+		ws.send(this.position.x+";"+this.position.y+";"+this.angle);
 	},
 	draw: function(g,go,w) {
 		with(this) {
@@ -30,12 +31,18 @@ PlayerTank.prototype = {
 		}
 	},
 	keyup:function(key) {	
-		if (37 <= key && key <= 40) {
+		if ([KEY_UP, 
+			 KEY_DOWN, 
+			 KEY_LEFT,
+			 KEY_RIGHT].indexOf(key) != -1) {
 			this.keymap[key]=0;
 		}
 	},
 	keydown:function(key) {		
-		if (37 <= key && key <= 40) {
+		if ([KEY_UP, 
+			 KEY_DOWN, 
+			 KEY_LEFT,
+			 KEY_RIGHT].indexOf(key) != -1) {
 			this.keymap[key]=1;
 		}
 	},	

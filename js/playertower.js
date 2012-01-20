@@ -6,8 +6,8 @@ PlayerTower.prototype = {
 	aimAngle:0,
 	keymap:{},
 	init:function() {
-		this.keymap[CONST.KEYS.D]=0;
-		this.keymap[CONST.KEYS.A]=0;
+		this.keymap[KEY_D]=0;
+		this.keymap[KEY_A]=0;
 		this.position = {x:0,y:0};
 		this.aimTowards = {x:0,y:0};
 		this.angle=0;
@@ -41,12 +41,12 @@ PlayerTower.prototype = {
 		}
 	},	
 	keyup:function(key) {	
-		if (key == CONST.KEYS.D || key == CONST.KEYS.A) {
+		if (key == KEY_D || key == KEY_A) {
 			this.keymap[key]=0;
 		}
 	},
 	keydown:function(key) {
-		if (key == CONST.KEYS.D || key == CONST.KEYS.A) {
+		if (key == KEY_D || key == KEY_A) {
 			this.keymap[key]=1;
 		}
 	},	

@@ -1,13 +1,13 @@
-var CONST = {
-	KEYS:{
-        UP:38,
-		DOWN:40,
-		LEFT:37,
-		RIGHT:39,
-		D:68,
-		A:65,
-	}
-}
+var ws;
+var opponent_pos = {};
+var opponent_angle;
+KEY_UP=87;
+KEY_DOWN=83;
+KEY_LEFT=65;
+KEY_RIGHT=68;
+KEY_D=39;
+KEY_A=39;
+
 var gfxFiles = {
 	splash:'tank.jpg',
 	playertank:'MovableObjs/tank.gif',
@@ -106,6 +106,7 @@ var init = function()
 	extend(GameState,State);
 	extend(SplashState,State);
 	extend(PlayerTank,Sprite);
+	extend(OpponentTank,Sprite);
 	extend(PlayerTower,Sprite);	
 
 	
@@ -134,6 +135,20 @@ var init = function()
 	statee.addState(Class.create(GameState));
 
 	setInterval(function() { statee.tick(); statee.draw() },25);
+
+    ws = new MozWebSocket("ws://192.168.1.66:8080/game");
+    ws.onopen = function() { console.log("open"); }
+	ws.onmessage = function(event) { 
+		var data=event.data.split(";");
+		opponent_pos.x = data[0];
+		opponent_pos.y = data[1];
+		opponent_angle = data[2];
+		console.log(data);
+		// TODO: Error handling
+        //console.log(event.data);
+	}
+    ws.onclose = function() { console.log('closed'); }
+	
 }
 
 window.onload = init;

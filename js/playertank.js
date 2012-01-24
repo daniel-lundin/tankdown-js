@@ -22,8 +22,10 @@ PlayerTank.prototype = {
 				position.x-=Math.cos(angle)*5;
 				position.y-=Math.sin(angle)*5;
 			}
+            if(keymap[KEY_LEFT] | keymap[KEY_RIGHT] | keymap[KEY_UP] | keymap[KEY_DOWN]) {
+                ws.send(this.position.x+";"+this.position.y+";"+this.angle);
+            }
 		}
-		ws.send(this.position.x+";"+this.position.y+";"+this.angle);
 	},
 	draw: function(g,go,w) {
 		with(this) {
